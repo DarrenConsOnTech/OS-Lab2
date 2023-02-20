@@ -2,7 +2,8 @@
 
 int main(int argc, char *argv[])
 {
-    // Input buffer and and commands
+    // Input buffer and commands
+	// environ array stores information for 2 environment variable - [0] -> PWD [1] -> Shell
 	char environ[2][MAX_BUFFER] = {0};
 	char pwd[MAX_BUFFER] = {0};
 	char myshell[MAX_BUFFER] = {0};
@@ -24,20 +25,26 @@ int main(int argc, char *argv[])
 		fp = stdin;
 	}
 	
-    // Perform an infinite loop getting command input from users
 	
 	printf("\n-------------------------------------------------------\n");
 	printf("\nWelcome to the shell!, type help to discover more commands\n\n");
-	get_currentDir(pwd);
-	get_currentDir(myshell);
+	getcwd(pwd, MAX_BUFFER);
+	getcwd(myshell, MAX_BUFFER);
+	
+	// Stores information for the cwd 
 	strcpy(environ[0], "PWD: ");
-	strcpy(environ[1], "MYSHELL: ");
 	strcat(environ[0], pwd);
+
+	// Stores information for the shell
+	strcpy(environ[1], "MYSHELL: ");
 	strcat(environ[1], myshell);
 	
 	printf("%s> ", pwd);
+
+    // Loops until buffer is empty
     while (fgets(buffer, MAX_BUFFER, fp) != NULL){
-        // Perform string tokenization to get the command and argument
+
+        // String tokenization to get the command and argument
 	    int index = 0;
 		while (buffer[index] != '\n'){
 			index++;
@@ -48,19 +55,37 @@ int main(int argc, char *argv[])
 		strcpy(command, tokens[0]);
 		
         // Check the command and execute the operations for each command
-        // cd command -- change the current directory
+
+        // check for cd
         if (strcmp(command, "cd") == 0){
-            // your code here
 			change_dir(pwd, tokens[1]);
 			strcpy(environ[0], "PWD: ");
 			strcat(environ[0], pwd);
         }
-
-        // other commands here...
 		
-		// clear screen
+		// check for clear
 		else if (strcmp(command, "clear") == 0){
 			clear_screen();
+		}
+
+		// lists the contents of the specified directory
+		else if (strcmp(command, "dir") == 0){
+			display_dir(tokens[1]);
+			printf("\n");
+		}
+		
+		// display environment variables
+		else if (strcmp(command, "environ") == 0){
+			display_environs(environ);
+		}
+		
+		// run the echo command
+		else if (strcmp(command, "echo") == 0){
+			printf("%s> ", pwd);
+			for (int i = 1; i < token_count; i++){
+				printf("%s ", tokens[i]);
+			}
+			printf("\n");
 		}
 
 		// display help
@@ -73,25 +98,6 @@ int main(int argc, char *argv[])
 			pause_shell();
 		}	
 		
-		// lists the contents of the specified directory
-		else if (strcmp(command, "dir") == 0){
-			display_dir(tokens[1]);
-			printf("\n");
-		}
-		
-		// run the echo command
-		else if (strcmp(command, "echo") == 0){
-			printf("%s> ", pwd);
-			for (int i = 1; i < token_count; i++){
-				printf("%s ", tokens[i]);
-			}
-			printf("\n");
-		}
-		
-		// display environment variables
-		else if (strcmp(command, "environ") == 0){
-			display_environs(environ);
-		}
 		
         // quit command -- exit the shell
         else if (strcmp(tokens[0], "quit") == 0 || strcmp(tokens[0], "exit") == 0){
