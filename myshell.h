@@ -35,7 +35,6 @@ extern char **environ;   // environment array
 // Function Definitions
 
 int string_tokenizer(char* str, char tokens[][MAX_BUFFER]);
-void get_currentDir(char* pwd);
 void change_dir(char* pwd, char* path);
 void clear_screen();
 void pause_shell();
