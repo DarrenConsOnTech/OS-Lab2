@@ -12,17 +12,12 @@ int string_tokenizer(char* str, char tokens[][MAX_BUFFER]){
 	return tokens_count;
 }
 
-// returns current directory
-void get_currentDir(char* pwd){
-	getcwd(pwd, MAX_BUFFER);
-}
-
 // changes the directory
 void change_dir(char* pwd, char* path){
 	int changed = chdir(path);
 	if (strcmp(path,"") != 0){
 		if (changed == 0){
-			get_currentDir(pwd);
+				getcwd(pwd, MAX_BUFFER);
 		}
 		else {
 			printf("%s> No such path exists!\n", pwd);
