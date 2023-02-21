@@ -3,7 +3,7 @@
 int main(int argc, char *argv[])
 {
     // Input buffer and commands
-	// environ array stores information for 2 environment variable - [0] -> PWD [1] -> Shell
+	// environ array stores information for 2 environment variables: [0] -> PWD [1] -> Shell
 	char environ[2][MAX_BUFFER] = {0};
 	char pwd[MAX_BUFFER] = {0};
 	char myshell[MAX_BUFFER] = {0};
@@ -25,12 +25,10 @@ int main(int argc, char *argv[])
 		fp = stdin;
 	}
 	
-	
-	printf("\n-------------------------------------------------------\n");
-	printf("\nWelcome to the shell!, type help to discover more commands\n\n");
+	printf("\n\nWelcome to SimpleShell! Type 'help' to view the supported internal commands!\n\n");
 	getcwd(pwd, MAX_BUFFER);
 	getcwd(myshell, MAX_BUFFER);
-	
+
 	// Stores information for the cwd 
 	strcpy(environ[0], "PWD: ");
 	strcat(environ[0], pwd);
@@ -39,7 +37,8 @@ int main(int argc, char *argv[])
 	strcpy(environ[1], "MYSHELL: ");
 	strcat(environ[1], myshell);
 	
-	printf("%s> ", pwd);
+	// Working directory path is printed and appended with ':~$ ' to 
+	printf("%s:$ ", pwd);
 
     // Loops until buffer is empty
     while (fgets(buffer, MAX_BUFFER, fp) != NULL){
@@ -56,8 +55,12 @@ int main(int argc, char *argv[])
 		
         // Check the command and execute the operations for each command
 
+        if (strcmp(command, "pwd") == 0){
+			printf("\n%s\n\n", pwd);
+        }
+
         // check for cd
-        if (strcmp(command, "cd") == 0){
+        else if (strcmp(command, "cd") == 0){
 			change_dir(pwd, tokens[1]);
 			strcpy(environ[0], "PWD: ");
 			strcat(environ[0], pwd);
@@ -81,7 +84,7 @@ int main(int argc, char *argv[])
 		
 		// run the echo command
 		else if (strcmp(command, "echo") == 0){
-			printf("%s> ", pwd);
+			printf("%s:$ ", pwd);
 			for (int i = 1; i < token_count; i++){
 				printf("%s ", tokens[i]);
 			}
@@ -97,18 +100,17 @@ int main(int argc, char *argv[])
 		else if (strcmp(command, "pause") == 0){
 			pause_shell();
 		}	
-		
-		
+			
         // quit command -- exit the shell
         else if (strcmp(tokens[0], "quit") == 0 || strcmp(tokens[0], "exit") == 0){
-            printf("Bye!\n");
+            printf("\nThanks for trying out SimpleShell! Goodbye!\n\n\n");
 			return EXIT_SUCCESS;
         }
 
-        // Unsupported command
+        // Unsupported commands will be captured and handled here
         else{
-			printf("%s> ", pwd);
-            printf("Unsupported command, use help to display the manual\n");
+			printf("%s:$ ", pwd);
+            printf("%s: command not found. Type 'help' to view list of supported internal commands\n", command);
         }
 		
 		memset(buffer, 0, sizeof buffer);
@@ -117,7 +119,7 @@ int main(int argc, char *argv[])
 			memset(tokens[i], 0, sizeof tokens[i]);
 		}
 		
-		printf("%s> ", pwd);
+		printf("%s:$ ", pwd);
     }
     return EXIT_SUCCESS;
 }
