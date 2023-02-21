@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 
 		// prints working directory
         if (strcmp(command, "pwd") == 0){
-			printf("%s\n", environ[0]);
+			printf("\n%s\n", environ[0]);
         }
 
         // changes directory
@@ -127,7 +127,7 @@ int main(int argc, char *argv[])
 
         // Unsupported commands will be captured and handled here
         else{
-            printf("%s: Command not found. Type 'help' to view list of supported internal commands\n", command);
+            printf("\n%s: Command not found. Type 'help' to view list of supported internal commands\n", command);
         }
 		
 		// frees the memory by filling all blocks with 0
