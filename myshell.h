@@ -1,3 +1,10 @@
+// Group 10 - Operating Systems Lab 2 
+// Instructor: Ghadeer Abdelkader
+// Group Members:
+// Darren Constantine - 100782701
+// Md Fardin Rahman - 100704517
+// Ram Baldeo Baldeo - 100701013
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -12,9 +19,6 @@
 #define MAX_BUFFER 1024  // max line buffer
 #define MAX_ARGS 64  // max # args
 #define SEPARATORS " \t\n"  // token sparators
-
-
-
 
 // Function Definitions
 int string_tokenizer(char* str, char tokens[][MAX_BUFFER]);
