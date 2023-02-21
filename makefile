@@ -1,4 +1,5 @@
-# Group 10 - Operating Systems Lab 2 
+# Operating Systems Lab 2
+# CRN: 74026 - Group 10
 # Instructor: Ghadeer Abdelkader
 # Group Members:
 # Darren Constantine - 100782701
