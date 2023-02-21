@@ -1,5 +1,5 @@
-# OS-Lab2
-## Group 10 - Operating Systems Lab 2 
+# Operating Systems Lab 2
+## CRN: 74026 - Group 10 
 <strong>Instructor:</strong><br>
 Ghadeer Abdelkader
 <br>
