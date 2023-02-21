@@ -1,7 +1,7 @@
 #include "myshell.h"
 
 int string_tokenizer(char* str, char tokens[][MAX_BUFFER]){
-	const char delimiter[2] = " ";
+	const char delimiter[1] = " ";
 	int tokens_count = 0;
 	char* token = strtok(str, delimiter);
 	while (token != NULL){
@@ -38,7 +38,6 @@ void pause_shell(){
 		input = (char)getchar();
 	}
 }
-
 
 // displays the directory
 void display_dir(char* path){
