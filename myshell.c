@@ -5,23 +5,27 @@ int main(int argc, char *argv[])
     // Input buffer and commands
 	// environ array stores information for 2 environment variables: [0] -> PWD [1] -> Shell
 	char environ[2][MAX_BUFFER] = {0};
+	// arrays are declared for the various types of buffers/handlers
 	char pwd[MAX_BUFFER] = {0};
 	char myshell[MAX_BUFFER] = {0};
     char buffer[MAX_BUFFER] = {0};
     char command[MAX_BUFFER] = {0};
-    char tokens[MAX_TOKENS][MAX_BUFFER] = {0};
+    char tokens[MAX_ARGS][MAX_BUFFER] = {0};
+	// used to keep track of the total number of arguments (token_count-1)
 	int token_count = 0;
 
 	FILE* fp = NULL;
+
     // Parse the commands provided using argc and argv
     if (argc > 1){
 		fp = fopen(argv[1],"r");
-		
 		if (fp == NULL){
 			printf("Error opening batch file...\n");
 			return EXIT_FAILURE;
 		}
 	}
+
+	// if not read from batchfile - commands will be entered by user
 	else {
 		fp = stdin;
 	}
@@ -38,17 +42,19 @@ int main(int argc, char *argv[])
 	strcpy(environ[1], "MYSHELL: ");
 	strcat(environ[1], myshell);
 	
-	// Working directory path is printed and appended with ':~$ ' to 
+	// Working directory path is printed and appended with ':$ ' to mimic format of a Linux shell
 	printf("%s:$ ", pwd);
 
     // Loops until buffer is empty
     while (fgets(buffer, MAX_BUFFER, fp) != NULL){
 
-        // String tokenization to get the command and argument
+        // String tokenization to seperate command from other arguments
 	    int index = 0;
+		
 		while (buffer[index] != '\n'){
 			index++;
 		}
+
 		buffer[index] = '\0';
 		
 		token_count = string_tokenizer(buffer, tokens);
@@ -99,13 +105,13 @@ int main(int argc, char *argv[])
 			printf("\nSupported Internal Commands:\n\n");
 			printf("help\t\t\t Lists the help menu\n");
 			printf("pwd\t\t\t Prints the path of the working directory\n");
-			printf("cd <path>\t\t Changes the working directory to the specified path\n");
+			printf("cd <path>\t\t Changes the current default directory to <directory>\n");
 			printf("clr\t\t\t Clears the screen\n");
 			printf("dir <directory>\t\t Lists the contents of the directory\n");
 			printf("environ\t\t\t Lists all the environment strings\n");
-			printf("echo <comment>\t\t Displays comment on the command line followed by a newline\n");
+			printf("echo <comment>\t\t Displays <comment> on the command line followed by a newline character\n");
 			printf("pause\t\t\t Pauses operation of the shell until the ENTER key is hit\n");
-			printf("quit\t\t\t Closes the shell [can also use 'exit']\n\n\n");
+			printf("quit\t\t\t Closes the shell [can also use 'exit']\n\n");
 		}	
 		
 		// pauses the shell
@@ -124,10 +130,10 @@ int main(int argc, char *argv[])
             printf("%s: Command not found. Type 'help' to view list of supported internal commands\n", command);
         }
 		
-		// frees the memory
+		// frees the memory by filling all blocks with 0
 		memset(buffer, 0, sizeof buffer);
 		memset(command, 0, sizeof command);
-		for (int i = 0; i < MAX_TOKENS; i++){
+		for (int i = 0; i < MAX_ARGS; i++){
 			memset(tokens[i], 0, sizeof tokens[i]);
 		}
 		
