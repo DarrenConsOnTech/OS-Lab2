@@ -39,6 +39,7 @@ void pause_shell(){
 	}
 }
 
+
 // displays the directory
 void display_dir(char* path){
 	struct dirent *de; 
