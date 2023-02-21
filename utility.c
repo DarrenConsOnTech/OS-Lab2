@@ -17,7 +17,8 @@ void change_dir(char* pwd, char* path){
 	int changed = chdir(path);
 	if (strcmp(path,"") != 0){
 		if (changed == 0){
-				getcwd(pwd, MAX_BUFFER);
+            printf("\n");
+            getcwd(pwd, MAX_BUFFER);
 		}
 		else {
 			printf("%s: No such file or directory\n", path);
@@ -50,7 +51,7 @@ void display_dir(char* path){
 		dr = opendir(path); 
 	}
 	if (dr == NULL) { 
-		printf("Could not find the directory specified!\n" );  
+		printf("\ndir: cannot access '%s': No such file or directory\n", path);  
 	} 
 	while ((de = readdir(dr)) != NULL){ 
 		printf("%s\n", de->d_name); 
