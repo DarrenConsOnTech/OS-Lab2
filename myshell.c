@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 		fp = stdin;
 	}
 	
-	printf("\n\nWelcome to SimpleShell! Type 'help' to view the supported internal commands!\n\n");
+	printf("\n\nWelcome to SimpleShell! Type 'help' to view the supported internal commands\n\n");
 	getcwd(pwd, MAX_BUFFER);
 	getcwd(myshell, MAX_BUFFER);
 
@@ -53,20 +53,22 @@ int main(int argc, char *argv[])
 		token_count = string_tokenizer(buffer, tokens);
 		strcpy(command, tokens[0]);
 		
-        // Check the command and execute the operations for each command
+        // Checks if the user entered any of the supported internal commands and executes them
 
+		// prints working directory
         if (strcmp(command, "pwd") == 0){
-			printf("\n%s\n\n", pwd);
+			printf("%s\n", environ[0]);
         }
 
-        // check for cd
+        // changes directory
         else if (strcmp(command, "cd") == 0){
 			change_dir(pwd, tokens[1]);
+			// Update pwd environment variable information
 			strcpy(environ[0], "PWD: ");
 			strcat(environ[0], pwd);
         }
 		
-		// check for clear
+		// clears screen
 		else if (strcmp(command, "clear") == 0){
 			clear_screen();
 		}
@@ -77,12 +79,12 @@ int main(int argc, char *argv[])
 			printf("\n");
 		}
 		
-		// display environment variables
+		// displays environment variables
 		else if (strcmp(command, "environ") == 0){
 			display_environs(environ);
 		}
 		
-		// run the echo command
+		// echo command
 		else if (strcmp(command, "echo") == 0){
 			printf("%s:$ ", pwd);
 			for (int i = 1; i < token_count; i++){
@@ -91,17 +93,26 @@ int main(int argc, char *argv[])
 			printf("\n");
 		}
 
-		// display help
+		// displays help menu
 		else if (strcmp(command, "help") == 0){
-			display_help();
+			printf("\nSupported Internal Commands:\n\n");
+			printf("help\t\t\t Lists the help menu\n");
+			printf("pwd\t\t\t Prints the path of the working directory\n");
+			printf("cd <path>\t\t Changes the working directory to the specified path\n");
+			printf("clr\t\t\t Clears the screen\n");
+			printf("dir <directory>\t\t Lists the contents of the directory\n");
+			printf("environ\t\t\t Lists all the environment strings\n");
+			printf("echo <comment>\t\t Displays comment on the command line followed by a newline\n");
+			printf("pause\t\t\t Pauses operation of the shell until the ENTER key is hit\n");
+			printf("quit\t\t\t Closes the shell [can also use 'exit']\n\n\n");
 		}	
 		
-		// pause the shell
+		// pauses the shell
 		else if (strcmp(command, "pause") == 0){
 			pause_shell();
 		}	
 			
-        // quit command -- exit the shell
+        // quit - exits the shell
         else if (strcmp(tokens[0], "quit") == 0 || strcmp(tokens[0], "exit") == 0){
             printf("\nThanks for trying out SimpleShell! Goodbye!\n\n\n");
 			return EXIT_SUCCESS;
@@ -109,8 +120,7 @@ int main(int argc, char *argv[])
 
         // Unsupported commands will be captured and handled here
         else{
-			printf("%s:$ ", pwd);
-            printf("%s: command not found. Type 'help' to view list of supported internal commands\n", command);
+            printf("%s: Command not found. Type 'help' to view list of supported internal commands\n", command);
         }
 		
 		memset(buffer, 0, sizeof buffer);
