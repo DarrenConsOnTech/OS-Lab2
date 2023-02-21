@@ -33,12 +33,10 @@ extern char **environ;   // environment array
 
 
 // Function Definitions
-
 int string_tokenizer(char* str, char tokens[][MAX_BUFFER]);
 void change_dir(char* pwd, char* path);
 void clear_screen();
 void pause_shell();
-void display_help();
 void display_dir(char* path);
 void display_environs(char env[][MAX_BUFFER]);
 
