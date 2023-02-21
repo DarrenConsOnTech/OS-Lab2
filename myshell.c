@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
     // Parse the commands provided using argc and argv
     if (argc > 1){
 		fp = fopen(argv[1],"r");
+		
 		if (fp == NULL){
 			printf("Error opening batch file...\n");
 			return EXIT_FAILURE;
@@ -123,6 +124,7 @@ int main(int argc, char *argv[])
             printf("%s: Command not found. Type 'help' to view list of supported internal commands\n", command);
         }
 		
+		// frees the memory
 		memset(buffer, 0, sizeof buffer);
 		memset(command, 0, sizeof command);
 		for (int i = 0; i < MAX_TOKENS; i++){
